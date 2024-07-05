@@ -41,107 +41,110 @@ class _DetailsScreenState extends State<DetailsScreen> {
         backgroundColor: const Color.fromARGB(255, 255, 66, 66),
       ),
       backgroundColor: const Color.fromARGB(255, 255, 66, 66),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            child: Text(
-              cityName,
-              style: TextStyle(
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              child: Text(
+                cityName,
+                style: TextStyle(
+                    fontSize: 40,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w700),
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Container(
+              width: 200,
+              height: 200,
+              child: Image(
+                image: NetworkImage(imageUrl),
+                fit: BoxFit.cover,
+              ),
+            ),
+            Container(
+              child: Text(
+                weatherCond,
+                style: TextStyle(
+                  fontSize: 22,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Container(
+              child: Text(
+                currTemp + ' °C',
+                style: TextStyle(
                   fontSize: 40,
                   color: Colors.white,
-                  fontWeight: FontWeight.w700),
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Container(
-            width: 200,
-            height: 200,
-            child: Image(
-              image: NetworkImage(imageUrl),
-              fit: BoxFit.cover,
-            ),
-          ),
-          Container(
-            child: Text(
-              weatherCond,
-              style: TextStyle(
-                fontSize: 22,
-                color: Colors.white,
+                ),
               ),
             ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Container(
-            child: Text(
-              currTemp + ' °C',
-              style: TextStyle(
-                fontSize: 40,
-                color: Colors.white,
-              ),
+            SizedBox(
+              height: 20,
             ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Column(
-                children: [
-                  Container(
-                    child: Text(
-                      'Humidity',
-                      style: TextStyle(fontSize: 20, color: Colors.white),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Column(
+                  children: [
+                    Container(
+                      child: Text(
+                        'Humidity',
+                        style: TextStyle(fontSize: 20, color: Colors.white),
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    child: Text(
-                      humidity + '%',
-                      style: TextStyle(fontSize: 18, color: Colors.white),
+                    SizedBox(
+                      height: 10,
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                width: 20,
-              ),
-              Column(
-                children: [
-                  Container(
-                    child: Text('Wind Speed',
-                        style: TextStyle(fontSize: 20, color: Colors.white)),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    child: Text(
-                      windSpeed + ' kmph',
-                      style: TextStyle(fontSize: 18, color: Colors.white),
+                    Container(
+                      child: Text(
+                        humidity + '%',
+                        style: TextStyle(fontSize: 18, color: Colors.white),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          ElevatedButton(
-            onPressed: () {
-              widget.getWeatherReport('$cityName $region');
-            },
-            child: const Icon(Icons.refresh),
-          ),
-        ],
+                  ],
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                Column(
+                  children: [
+                    Container(
+                      child: Text('Wind Speed',
+                          style: TextStyle(fontSize: 20, color: Colors.white)),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      child: Text(
+                        windSpeed + ' kmph',
+                        style: TextStyle(fontSize: 18, color: Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                widget.getWeatherReport('$cityName $region');
+              },
+              child: const Icon(Icons.refresh),
+            ),
+          ],
+        ),
       ),
     );
   }

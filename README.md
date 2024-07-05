@@ -4,12 +4,15 @@ A new Flutter project.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+To Run the app in you system follow the below steps:
 
-A few resources to get you started if this is your first Flutter project:
+1. Clone the repo or download the zip file into you system.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+2. Open the cloned repo in vs code.
+
+3. Run "flutter pub get" command in the terminal to get all the required dependencies and packages.
+
+4. Run the project on the emulator.
 
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,

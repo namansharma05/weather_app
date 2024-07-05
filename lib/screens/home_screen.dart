@@ -16,7 +16,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    bool processStart = false;
     void _getWeatherReport(String location) async {
       try {
         WeatherModel response = await WeatherApi().getCurrentWeather(location);
