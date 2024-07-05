@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/api.dart';
 import 'package:weather_app/models/weatherApiModel.dart';
+import 'package:weather_app/screens/details_screen.dart';
+import 'package:weather_app/screens/error_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -12,16 +14,42 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   TextEditingController searchedLocation = TextEditingController();
 
-  void getWeatherReport(String location) async {
-    WeatherModel response = await WeatherApi().getCurrentWeather(location);
-    // print(response.runtimeType);
-    final data = response.toJson();
-
-    print(data['location']['name']);
-  }
-
   @override
   Widget build(BuildContext context) {
+    bool processStart = false;
+    void _getWeatherReport(String location) async {
+      try {
+        WeatherModel response = await WeatherApi().getCurrentWeather(location);
+        final data = response.toJson();
+
+        if (Navigator.of(context).canPop()) {
+          Navigator.pop(context);
+        }
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => DetailsScreen(
+              finalResponse: data,
+              getWeatherReport: (location) => _getWeatherReport(location),
+            ),
+          ),
+        );
+      } catch (e) {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => ErrorScreen(),
+          ),
+        );
+      }
+
+      searchedLocation.clear();
+    }
+
+    @override
+    void dispose() {
+      searchedLocation.dispose();
+      super.dispose();
+    }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 255, 66, 66),
@@ -32,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Container(
             width: 353,
             height: 50,
-            margin: const EdgeInsets.only(left: 20),
+            // margin: const EdgeInsets.only(left: 20),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(28),
                 color: const Color.fromARGB(255, 255, 139, 139),
@@ -52,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: TextField(
                       controller: searchedLocation,
                       onSubmitted: (value) {
-                        getWeatherReport(searchedLocation.text);
+                        _getWeatherReport(searchedLocation.text);
                       },
                       autocorrect: false,
                       cursorColor: Colors.white,
@@ -71,21 +99,48 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
-                Container(
-                  width: 35,
-                  height: 35,
-                  margin: const EdgeInsets.only(right: 10),
-                  child: const Icon(
-                    Icons.search,
-                    color: Colors.white,
-                    size: 30,
+                InkWell(
+                  onTap: () => _getWeatherReport(searchedLocation.text),
+                  child: Container(
+                    width: 35,
+                    height: 35,
+                    margin: const EdgeInsets.only(right: 10),
+                    child: const Icon(
+                      Icons.search,
+                      color: Colors.white,
+                      size: 30,
+                    ),
                   ),
                 ),
               ],
             ),
           ),
-          const Text(
-            'Search Location to see Weather Report',
+          SizedBox(
+            height: 30,
+          ),
+          Container(
+            margin: EdgeInsets.only(
+              left: 20,
+              right: 20,
+              top: 100,
+            ),
+            child: RichText(
+              text: TextSpan(
+                  text: 'Search Location to See ',
+                  style: TextStyle(
+                    fontSize: 34,
+                    color: Colors.white,
+                  ),
+                  children: [
+                    TextSpan(
+                      text: 'Weather Report',
+                      style: TextStyle(
+                          fontSize: 44,
+                          color: Colors.white54,
+                          fontWeight: FontWeight.w700),
+                    )
+                  ]),
+            ),
           ),
         ],
       ),
